@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}Página não encontrada | Sistema de Diagnóstico de Plantas{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="form-title">Página não encontrada</h2>
+    <p>Desculpe, a página que você está procurando não existe.</p>
+    <div class="form-actions">
+        <a href="{{ url_for('index') }}" class="btn">Voltar para a página inicial</a>
+    </div>
+</div>
+{% endblock %} 

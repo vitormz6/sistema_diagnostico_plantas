@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}Erro no servidor | Sistema de Diagnóstico de Plantas{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="form-title">Erro no servidor</h2>
+    <p>Desculpe, ocorreu um erro interno no servidor.</p>
+    <p>Nossa equipe técnica foi notificada e estamos trabalhando para resolver o problema.</p>
+    <div class="form-actions">
+        <a href="{{ url_for('index') }}" class="btn">Voltar para a página inicial</a>
+    </div>
+</div>
+{% endblock %} 
