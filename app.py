@@ -10,8 +10,9 @@ Equipe:
 """
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from src.inference_engine import InferenceEngine
+from src.inference_engine import InferenceEngine, diagnostico_probabilistico, diagnostico_probabilistico_texto
 from src.input_validation import InputValidator
+
 
 app = Flask(__name__)
 
@@ -42,6 +43,14 @@ def diagnose():
     
     # Retorna os resultados como JSON
     return jsonify({'results': results})
+
+@app.route("/diagnostico_probabilistico_web", methods=["POST"])
+def diagnostico_probabilistico_web():
+    texto_usuario = request.form.get("descricao", "").lower()
+    resultado = diagnostico_probabilistico_texto(texto_usuario)
+    resultado_ordenado = sorted(resultado.items(), key=lambda x: x[1], reverse=True)
+    return render_template("resultado_bayes.html", resultados=resultado_ordenado, texto=texto_usuario)
+
 
 @app.errorhandler(404)
 def page_not_found(e):

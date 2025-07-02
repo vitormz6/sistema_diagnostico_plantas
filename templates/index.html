@@ -1,121 +1,152 @@
-{% extends "layout.html" %}
-
-{% block title %}Diagnóstico de Plantas - Análise de Sintomas{% endblock %}
-
-{% block content %}
+{% extends "layout.html" %} {% block title %}Diagnóstico de Plantas - Análise de
+Sintomas{% endblock %} {% block content %}
 <section id="form-section">
-    <div class="form-card">
-        <h2 class="form-title">Diagnóstico de Problemas em Plantas</h2>
-        <p>Descreva os sintomas que sua planta está apresentando para receber um diagnóstico e recomendações de tratamento.</p>
-        
-        <form id="diagnosis-form" method="post" action="/diagnose">
-            <div class="form-group">
-                <div class="label-wrapper">
-                    <label for="symptoms">Sintomas da Planta:</label>
-                    <button type="button" id="keywords-help-btn" class="help-btn" title="Ver palavras-chave disponíveis">
-                        <span>?</span>
-                    </button>
-                </div>
-                <textarea 
-                    id="symptoms" 
-                    name="symptoms" 
-                    class="form-control" 
-                    rows="5" 
-                    placeholder="Ex: As folhas estão amarelando e caindo, o solo está sempre úmido..."
-                    required
-                ></textarea>
-                <div id="error-message" class="error-message hidden"></div>
-            </div>
-            
-            <div class="form-actions">
-                <button type="submit" class="btn">Analisar Sintomas</button>
-            </div>
-        </form>
+  <div class="form-card">
+    <h2 class="form-title">Diagnóstico de Problemas em Plantas</h2>
+    <p>
+      Descreva os sintomas que sua planta está apresentando para receber um
+      diagnóstico e recomendações de tratamento.
+    </p>
+
+    <div class="form-group">
+      <div class="label-wrapper">
+        <label for="symptoms">Sintomas da Planta:</label>
+        <button
+          type="button"
+          id="keywords-help-btn"
+          class="help-btn"
+          title="Ver palavras-chave disponíveis"
+        >
+          <span>?</span>
+        </button>
+      </div>
+      <textarea
+        id="symptoms"
+        name="symptoms"
+        class="form-control"
+        rows="5"
+        placeholder="Ex: As folhas estão amarelando e caindo, o solo está sempre úmido..."
+        required
+      ></textarea>
+      <div id="error-message" class="error-message hidden"></div>
     </div>
 
-    <!-- Modal de palavras-chave - movido para fora do formulário -->
-    <div id="keywords-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Palavras-chave disponíveis</h3>
-                <button type="button" class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Use estas palavras-chave para obter melhores resultados:</p>
-                
-                <div class="keywords-categories">
-                    <div class="keywords-category">
-                        <h4>Folhas</h4>
-                        <ul class="keywords-list">
-                            <li>amarela, amarelada, amarelando</li>
-                            <li>marrom, seca, secando, pontas</li>
-                            <li>caindo, caída, queda</li>
-                            <li>mancha, preta, escura</li>
-                            <li>deformada, enrugada, enrolada, torta</li>
-                            <li>pálida, esbranquiçada, clara, descolorida</li>
-                            <li>furos, comida, mordida, buraco</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="keywords-category">
-                        <h4>Problemas comuns</h4>
-                        <ul class="keywords-list">
-                            <li>insetos, praga, ponto, branco</li>
-                            <li>murcha, murchando, caída, murcho</li>
-                            <li>teia, aranha, teia de aranha</li>
-                            <li>crescimento lento, não cresce, parou</li>
-                            <li>caule, mole, flexível, podre</li>
-                            <li>broto, queimado, queimando</li>
-                            <li>mofo, branco, cinza, pó</li>
-                            <li>raiz, exposta, saindo, vaso</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <p class="keywords-tip">Tente combinar várias palavras-chave para resultados mais precisos.</p>
-                <button type="button" class="btn btn-sm close-btn">Fechar</button>
-            </div>
+    <div class="form-actions">
+      <form id="diagnosis-form" method="post" action="/diagnose">
+        <button type="submit" class="btn">Analisar Sintomas</button>
+      </form>
+    </div>
+    <div class="form-actions">
+      <form action="/diagnostico_probabilistico_web" method="post">
+        <!-- checkboxes de sintomas aqui -->
+        <button type="submit" class="btn">Diagnóstico com NB</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de palavras-chave - movido para fora do formulário -->
+  <div id="keywords-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Palavras-chave disponíveis</h3>
+        <button type="button" class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Use estas palavras-chave para obter melhores resultados:</p>
+
+        <div class="keywords-categories">
+          <div class="keywords-category">
+            <h4>Folhas</h4>
+            <ul class="keywords-list">
+              <li>amarela, amarelada, amarelando</li>
+              <li>marrom, seca, secando, pontas</li>
+              <li>caindo, caída, queda</li>
+              <li>mancha, preta, escura</li>
+              <li>deformada, enrugada, enrolada, torta</li>
+              <li>pálida, esbranquiçada, clara, descolorida</li>
+              <li>furos, comida, mordida, buraco</li>
+            </ul>
+          </div>
+
+          <div class="keywords-category">
+            <h4>Problemas comuns</h4>
+            <ul class="keywords-list">
+              <li>insetos, praga, ponto, branco</li>
+              <li>murcha, murchando, caída, murcho</li>
+              <li>teia, aranha, teia de aranha</li>
+              <li>crescimento lento, não cresce, parou</li>
+              <li>caule, mole, flexível, podre</li>
+              <li>broto, queimado, queimando</li>
+              <li>mofo, branco, cinza, pó</li>
+              <li>raiz, exposta, saindo, vaso</li>
+            </ul>
+          </div>
         </div>
-    </div>
 
-    <div class="form-card">
-        <h2 class="form-title">Como Funciona</h2>
-        <p>Este sistema utiliza inteligência artificial para analisar os sintomas descritos e comparar com uma base de conhecimento especializada em problemas comuns de plantas domésticas.</p>
-        
-        <h3>Exemplos de Problemas que o Sistema Identifica:</h3>
-        <ul>
-            <li>Problemas de irrigação (excesso ou falta de água)</li>
-            <li>Doenças fúngicas e bacterianas</li>
-            <li>Infestações de pragas</li>
-            <li>Deficiências nutricionais</li>
-            <li>Problemas relacionados à exposição solar</li>
-        </ul>
-        
-        <h3>Dicas para Obter Melhores Resultados:</h3>
-        <ul>
-            <li>Forneça detalhes específicos sobre a aparência das folhas, caule e flores</li>
-            <li>Descreva há quanto tempo os sintomas estão aparecendo</li>
-            <li>Mencione as condições de cultivo (luz, umidade, frequência de rega)</li>
-            <li>Inclua qualquer mudança recente no ambiente ou nos cuidados com a planta</li>
-            <li><span class="highlight-tip">Clique no botão <strong>?</strong> para ver palavras-chave úteis para sua descrição</span></li>
-        </ul>
+        <p class="keywords-tip">
+          Tente combinar várias palavras-chave para resultados mais precisos.
+        </p>
+        <button type="button" class="btn btn-sm close-btn">Fechar</button>
+      </div>
     </div>
+  </div>
+
+  <div class="form-card">
+    <h2 class="form-title">Como Funciona</h2>
+    <p>
+      Este sistema utiliza inteligência artificial para analisar os sintomas
+      descritos e comparar com uma base de conhecimento especializada em
+      problemas comuns de plantas domésticas.
+    </p>
+
+    <h3>Exemplos de Problemas que o Sistema Identifica:</h3>
+    <ul>
+      <li>Problemas de irrigação (excesso ou falta de água)</li>
+      <li>Doenças fúngicas e bacterianas</li>
+      <li>Infestações de pragas</li>
+      <li>Deficiências nutricionais</li>
+      <li>Problemas relacionados à exposição solar</li>
+    </ul>
+
+    <h3>Dicas para Obter Melhores Resultados:</h3>
+    <ul>
+      <li>
+        Forneça detalhes específicos sobre a aparência das folhas, caule e
+        flores
+      </li>
+      <li>Descreva há quanto tempo os sintomas estão aparecendo</li>
+      <li>
+        Mencione as condições de cultivo (luz, umidade, frequência de rega)
+      </li>
+      <li>
+        Inclua qualquer mudança recente no ambiente ou nos cuidados com a planta
+      </li>
+      <li>
+        <span class="highlight-tip"
+          >Clique no botão <strong>?</strong> para ver palavras-chave úteis para
+          sua descrição</span
+        >
+      </li>
+    </ul>
+  </div>
 </section>
 
 <div id="loading-indicator" class="loading-indicator hidden">
-    <div class="spinner"></div>
-    <p>Analisando os sintomas...</p>
+  <div class="spinner"></div>
+  <p>Analisando os sintomas...</p>
 </div>
 
 <section id="results-section" class="hidden">
-    <div class="results-card">
-        <h2 class="form-title">Resultados do Diagnóstico</h2>
-        <div id="results-container">
-            <!-- Resultados do diagnóstico serão inseridos aqui via JavaScript -->
-        </div>
-        <div class="form-actions">
-            <button id="new-diagnosis-btn" class="btn btn-outline">Fazer Nova Análise</button>
-        </div>
+  <div class="results-card">
+    <h2 class="form-title">Resultados do Diagnóstico</h2>
+    <div id="results-container">
+      <!-- Resultados do diagnóstico serão inseridos aqui via JavaScript -->
     </div>
+    <div class="form-actions">
+      <button id="new-diagnosis-btn" class="btn btn-outline">
+        Fazer Nova Análise
+      </button>
+    </div>
+  </div>
 </section>
-{% endblock %} 
+{% endblock %}

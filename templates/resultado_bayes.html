@@ -1,0 +1,10 @@
+<h2>Diagnóstico com IA baseado em sua descrição:</h2>
+<p><strong>Sintomas informados:</strong> "{{ texto }}"</p>
+
+<ul>
+  {% for diag, prob in resultados %}
+  <li><strong>{{ diag }}</strong>: {{ (prob * 100) | round(2) }}%</li>
+  {% endfor %}
+</ul>
+
+<a href="/">Voltar</a>

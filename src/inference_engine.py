@@ -5,6 +5,7 @@ Responsável por analisar os sintomas e compará-los com a base de conhecimento.
 
 import re
 from src.knowledge_base import KnowledgeBase
+from src.naive_bayes_model import NaiveBayesDiagnostico
 
 class InferenceEngine:
     def __init__(self):
@@ -93,3 +94,63 @@ class InferenceEngine:
             })
         
         return results
+
+def diagnostico_probabilistico(sintomas_usuario):
+    modelo = NaiveBayesDiagnostico()
+    probabilidades = modelo.prever_probabilidades(sintomas_usuario)
+    return sorted(probabilidades.items(), key=lambda x: x[1], reverse=True)
+
+def interpretar_entrada(texto_usuario):
+    """
+    Converte o texto do usuário em um dicionário de sintomas binários.
+    Usa a base de conhecimento para detectar sintomas mencionados.
+    """
+    texto_usuario = texto_usuario.lower()
+    kb = KnowledgeBase()
+    regras = kb.get_rules()
+
+    # Inicializa todos os sintomas como 0
+    sintomas_unicos = [
+        "folhas_amareladas", "folhas_marrons", "queda_folhas", "manchas_escuras",
+        "pragas_visiveis", "folhas_murchas", "teias_aranha", "crescimento_lento",
+        "folhas_deformadas", "caule_mole", "brotos_queimados", "folhas_palidas",
+        "mofo_superficial", "raizes_expostas", "folhas_com_furos"
+    ]
+    sintomas_binarios = {sintoma: 0 for sintoma in sintomas_unicos}
+
+    # Mapeamento de diagnóstico para coluna
+    diagnostico_para_coluna = {
+        "Excesso de água ou falta de nutrientes": "folhas_amareladas",
+        "Falta de água ou baixa umidade": "folhas_marrons",
+        "Mudança ambiental ou estresse": "queda_folhas",
+        "Fungo ou doença fúngica": "manchas_escuras",
+        "Infestação de pulgões ou cochonilhas": "pragas_visiveis",
+        "Falta de água ou raízes comprometidas": "folhas_murchas",
+        "Ácaros (aranhas vermelhas)": "teias_aranha",
+        "Falta de luz ou nutrientes": "crescimento_lento",
+        "Ataque de insetos ou deficiência nutricional": "folhas_deformadas",
+        "Apodrecimento por excesso de água": "caule_mole",
+        "Exposição excessiva ao sol ou fertilizante em excesso": "brotos_queimados",
+        "Exposição excessiva ao sol ou deficiência de ferro": "folhas_palidas",
+        "Oídio (doença fúngica)": "mofo_superficial",
+        "Vaso pequeno ou necessidade de transplante": "raizes_expostas",
+        "Ataque de insetos mastigadores": "folhas_com_furos"
+    }
+
+    # Ativa os sintomas que aparecem no texto com base nas keywords
+    for regra in regras:
+        if any(palavra in texto_usuario for palavra in regra["keywords"]):
+            coluna = diagnostico_para_coluna.get(regra["diagnosis"])
+            if coluna:
+                sintomas_binarios[coluna] = 1
+
+    return sintomas_binarios
+
+
+def diagnostico_probabilistico_texto(texto_usuario):
+    """
+    Recebe uma frase do usuário e retorna os possíveis diagnósticos com probabilidade.
+    """
+    sintomas_binarios = interpretar_entrada(texto_usuario)
+    modelo = NaiveBayesDiagnostico()
+    return modelo.prever_probabilidades(sintomas_binarios)
