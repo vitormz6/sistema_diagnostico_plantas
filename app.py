@@ -47,9 +47,27 @@ def diagnose():
 @app.route("/diagnostico_probabilistico_web", methods=["POST"])
 def diagnostico_probabilistico_web():
     texto_usuario = request.form.get("descricao", "").lower()
+    # Calcula probabilidades
     resultado = diagnostico_probabilistico_texto(texto_usuario)
-    resultado_ordenado = sorted(resultado.items(), key=lambda x: x[1], reverse=True)
-    return render_template("resultado_bayes.html", resultados=resultado_ordenado, texto=texto_usuario)
+
+    # Filtra diagnósticos com probabilidade >= 10 %
+    resultado_filtrado = [(diag, prob) for diag, prob in resultado.items() if prob >= 0.10]
+
+    if resultado_filtrado:
+        # Há diagnósticos acima do limiar
+        resultado_ordenado = sorted(resultado_filtrado, key=lambda x: x[1], reverse=True)
+        low_confidence = False
+    else:
+        # Nenhum diagnóstico acima do limiar – mostrar todos, mas marcar baixa confiança
+        resultado_ordenado = sorted(resultado.items(), key=lambda x: x[1], reverse=True)
+        low_confidence = True
+
+    return render_template(
+        "resultado_bayes.html",
+        resultados=resultado_ordenado,
+        texto=texto_usuario,
+        low_confidence=low_confidence,
+    )
 
 
 @app.errorhandler(404)

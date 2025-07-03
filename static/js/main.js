@@ -254,4 +254,27 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsSection.classList.remove('hidden');
         formSection.classList.add('hidden');
     }
+
+    // Elementos para o diagnóstico Naive Bayes
+    const diagnosisNbForm = document.getElementById('diagnosis-nb-form');
+    const descricaoInput = document.getElementById('descricao-input');
+
+    // Submissão do formulário de diagnóstico com Naive Bayes
+    if (diagnosisNbForm) {
+        diagnosisNbForm.addEventListener('submit', function(e) {
+            const symptoms = symptomsInput.value.trim();
+
+            // Validação simples – garantir que o usuário escreveu algo útil
+            if (symptoms.length < 3) {
+                e.preventDefault(); // Impede envio caso inválido
+                showError('Por favor, descreva os sintomas com mais detalhes (mínimo 3 caracteres).');
+                return;
+            }
+
+            // Atribui a descrição ao campo oculto para que o backend receba
+            if (descricaoInput) {
+                descricaoInput.value = symptoms;
+            }
+        });
+    }
 }); 

@@ -37,8 +37,10 @@ Sintomas{% endblock %} {% block content %}
       </form>
     </div>
     <div class="form-actions">
-      <form action="/diagnostico_probabilistico_web" method="post">
-        <!-- checkboxes de sintomas aqui -->
+      <form id="diagnosis-nb-form" action="/diagnostico_probabilistico_web" method="post">
+        <!-- Campo oculto para enviar a descrição dos sintomas ao backend -->
+        <input type="hidden" name="descricao" id="descricao-input" />
+        <!-- checkboxes de sintomas (opcional) podem ser adicionadas aqui no futuro -->
         <button type="submit" class="btn">Diagnóstico com NB</button>
       </form>
     </div>

@@ -1,10 +1,31 @@
-<h2>Diagnóstico com IA baseado em sua descrição:</h2>
-<p><strong>Sintomas informados:</strong> "{{ texto }}"</p>
+{% extends "layout.html" %}
 
-<ul>
-  {% for diag, prob in resultados %}
-  <li><strong>{{ diag }}</strong>: {{ (prob * 100) | round(2) }}%</li>
-  {% endfor %}
-</ul>
+{% block title %}Resultados do Diagnóstico NB | Sistema de Diagnóstico de Plantas{% endblock %}
 
-<a href="/">Voltar</a>
+{% block content %}
+<div class="results-card fade-in">
+    <h2 class="form-title">Diagnóstico com IA baseado em sua descrição</h2>
+    <p><strong>Sintomas informados:</strong> "{{ texto }}"</p>
+
+    {% if resultados %}
+        {% for diag, prob in resultados %}
+            <div class="diagnosis-item">
+                <h3 class="diagnosis-title">
+                    {{ diag }}
+                    <span class="confidence-badge">{{ (prob * 100) | round(2) }}%</span>
+                </h3>
+            </div>
+        {% endfor %}
+        {% if low_confidence %}
+            <p class="additional-info">Nenhum diagnóstico ultrapassou 10&nbsp;% de confiança. Os resultados abaixo têm baixa acurácia e podem conter erros.</p>
+        {% endif %}
+    {% else %}
+        <p class="additional-info">Nenhum diagnóstico ultrapassou 10&nbsp;% de confiança.
+        Os resultados abaixo têm baixa acurácia e podem conter erros.</p>
+    {% endif %}
+
+    <div class="form-actions">
+        <a href="{{ url_for('index') }}" class="btn btn-outline">Voltar</a>
+    </div>
+</div>
+{% endblock %}
