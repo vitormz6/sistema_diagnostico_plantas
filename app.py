@@ -46,6 +46,16 @@ def diagnose():
 
 @app.route("/diagnostico_probabilistico_web", methods=["POST"])
 def diagnostico_probabilistico_web():
+    """Processa o botão "Diagnóstico com NB".
+
+    Etapas:
+    1. Recebe a descrição textual enviada pelo front-end.
+    2. Calcula probabilidades usando o modelo Naive Bayes.
+    3. Filtra diagnósticos com probabilidade ≥ 10 %.
+       – Se pelo menos um diagnóstico atende ao critério -> exibe apenas esses.
+       – Caso contrário -> exibe todos os diagnósticos mas seta *low_confidence* para
+         que o template mostre aviso de baixa acurácia.
+    """
     texto_usuario = request.form.get("descricao", "").lower()
     # Calcula probabilidades
     resultado = diagnostico_probabilistico_texto(texto_usuario)

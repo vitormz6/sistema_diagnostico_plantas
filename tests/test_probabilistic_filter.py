@@ -2,6 +2,13 @@ import re
 import unittest
 from app import app
 
+"""Testa o endpoint Naive Bayes (/diagnostico_probabilistico_web).
+
+Garante que:
+1. Se houver diagnósticos acima de 10 %, nenhum resultado abaixo desse valor é exibido.
+2. Se todos estiverem abaixo de 10 %, o template mostra aviso de baixa confiança.
+"""
+
 class TestProbabilisticFilter(unittest.TestCase):
     def setUp(self):
         # Cria cliente de teste do Flask

@@ -1,3 +1,15 @@
+/**
+ * main.js – Front-end do Sistema Especialista de Diagnóstico de Plantas
+ *
+ * Responsável por:
+ * 1. Gerenciar modais de palavras-chave
+ * 2. Validar e enviar formulários de diagnóstico por regras e por Naive Bayes
+ * 3. Exibir indicadores de carregamento, erros e resultados
+ * 4. Manter consistência visual/UX (animações, reset de estado)
+ *
+ * Observação: mantenha quaisquer alterações de DOM sincronizadas com templates Jinja2.
+ */
+
 // JavaScript for Plant Diagnosis System
 
 document.addEventListener('DOMContentLoaded', function() {
